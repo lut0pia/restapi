@@ -2,10 +2,6 @@ from fastapi import APIRouter, HTTPException
 import subprocess
 import os
 
-NAME = "robin"
-GIT_REPO = "https://github.com/Lyatus/robin"
-PROJECT_DIR = "cli"
-
 router = APIRouter(prefix="/robin")
 
 @router.post("/render")

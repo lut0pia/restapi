@@ -1,0 +1,6 @@
+[submodule "program/robin"]
+	path = program/robin
+	url = https://github.com/Lyatus/robin
+[submodule "program/steve"]
+	path = program/steve
+	url = https://github.com/Lyatus/steve

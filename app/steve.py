@@ -3,9 +3,6 @@ import subprocess
 import os
 import uuid
 
-NAME = "steve"
-GIT_REPO = "https://github.com/Lyatus/steve"
-
 router = APIRouter(prefix="/steve")
 
 @router.get("/configurations")
