@@ -7,6 +7,7 @@ FROM builder AS robin
 COPY ./program/robin /robin
 RUN cmake -S /robin/cli /robin/cli/bld -DCMAKE_BUILD_TYPE=Release
 RUN cmake --build /robin/cli/bld --config Release
+RUN cmake --install /robin/cli/bld --config Release
 
 FROM builder AS steve
 COPY ./program/steve /steve
@@ -20,7 +21,7 @@ EXPOSE 80/tcp
 RUN apk update && apk add ffmpeg
 RUN pip install --no-cache-dir --upgrade fastapi[standard]
 COPY ./app /app
-COPY --from=robin /robin /app/program/robin
+COPY --from=robin /usr/local/bin/rbncli /usr/local/bin/rbncli
 COPY --from=steve /usr/local/bin/steve /usr/local/bin/steve
 COPY --from=steve /usr/local/steve /usr/local/steve
 CMD ["fastapi", "run", "main.py", "--port", "80"]

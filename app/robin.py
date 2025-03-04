@@ -15,11 +15,7 @@ async def render(filename : str):
   if not os.path.exists(mid_path):
     raise HTTPException(status_code=404, detail=f"File '{filename}' not found")
 
-  robin_exe = "program/robin/cli/bld/Release/rbncli.exe"
-  if not os.path.exists(robin_exe):
-    robin_exe = "program/robin/cli/bld/rbncli"
-
-  error = subprocess.call([robin_exe, "render", mid_path])
+  error = subprocess.call(["rbncli", "render", mid_path])
   if error != 0:
     raise HTTPException(status_code=500, detail=f"Robin process returned {error}")
 
