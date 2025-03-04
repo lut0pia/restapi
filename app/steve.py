@@ -5,25 +5,22 @@ import uuid
 
 router = APIRouter(prefix="/steve")
 
+CFG_DIR = "/usr/local/steve/cfg"
+
 @router.get("/configurations")
 async def get_configurations():
-  return list(map(lambda c: c.removesuffix('.steve.json'), os.listdir("program/steve/cfg")))
+  return list(map(lambda c: c.removesuffix('.steve.json'), os.listdir(CFG_DIR)))
 
 @router.post("/generate")
 async def generate(configuration: str):
-  config_path = f"program/steve/cfg/{configuration}.steve.json"
+  config_path = f"{CFG_DIR}/{configuration}.steve.json"
   if not os.path.exists(config_path):
     raise HTTPException(status_code=404, detail=f"Configuration '{configuration}' not found")
-
-  # Ugly but I can't be bothered to use CMake correctly
-  steve_exe = "program/steve/bld/Release/steve.exe"
-  if not os.path.exists(steve_exe):
-    steve_exe = "program/steve/bld/steve"
 
   filename = str(uuid.uuid4())
   output_path = f"tmp/{filename}"
   error = subprocess.call([
-    steve_exe,
+    "steve",
     "-mj",
     "--random",
     f"--out={output_path}",
