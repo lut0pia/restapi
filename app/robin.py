@@ -22,7 +22,7 @@ async def render(filename : str):
   wav_path = f"tmp/{filebase}.wav"
   mp3_path = f"tmp/{filebase}.mp3"
 
-  error = subprocess.call(["ffmpeg", "-i", wav_path, mp3_path])
+  error = subprocess.call(["ffmpeg", "-v", "warning", "-i", wav_path, mp3_path])
   if error != 0:
     raise HTTPException(status_code=500, detail=f"Ffmpeg process returned {error}")
 
