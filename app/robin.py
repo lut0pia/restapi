@@ -6,6 +6,7 @@ router = APIRouter(prefix="/robin")
 
 @router.post("/render")
 async def render(filename : str):
+  """Render a MIDI file into digital audio"""
   filebase, ext = os.path.splitext(filename)
 
   if not ext in [".mid", ".midi"]:

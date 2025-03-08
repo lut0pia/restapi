@@ -9,10 +9,12 @@ CFG_DIR = "/usr/local/steve/cfg"
 
 @router.get("/configurations")
 async def get_configurations():
+  """Get all available configuration names."""
   return list(map(lambda c: c.removesuffix('.steve.json'), os.listdir(CFG_DIR)))
 
 @router.post("/generate")
 async def generate(configuration: str):
+  """Generate a MIDI sequence using the named configuration."""
   config_path = f"{CFG_DIR}/{configuration}.steve.json"
   if not os.path.exists(config_path):
     raise HTTPException(status_code=404, detail=f"Configuration '{configuration}' not found")
