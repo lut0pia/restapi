@@ -7,11 +7,12 @@ import uuid
 router = APIRouter(prefix="/steve")
 
 CFG_DIR = "/usr/local/steve/cfg"
+CFG_NAMES = list(map(lambda c: c.removesuffix('.steve.json'), os.listdir(CFG_DIR)))
 
 @router.get("/configurations")
 async def get_configurations():
   """Get all available configuration names."""
-  return list(map(lambda c: c.removesuffix('.steve.json'), os.listdir(CFG_DIR)))
+  return CFG_NAMES
 
 @router.post("/generate")
 async def generate(configuration: str):
