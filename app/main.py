@@ -7,8 +7,6 @@ import os
 import steve
 import robin
 
-programs = [steve, robin]
-
 update_timer = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,8 +14,6 @@ async def lifespan(app: FastAPI):
   update_timer.cancel()
 
 app = FastAPI(lifespan=lifespan)
-for program in programs:
-  app.include_router(program.router)
 
 allow_origins = [
   "https://lutopia.net",
@@ -26,7 +22,6 @@ allow_origins = [
 if os.getenv("DEBUG"):
   print("Running in debug mode")
   allow_origins.append("*")
-
 app.add_middleware(
   CORSMiddleware,
   allow_origins=allow_origins,
@@ -37,6 +32,9 @@ app.add_middleware(
 
 os.makedirs("tmp", exist_ok=True)
 app.mount("/tmp", StaticFiles(directory="tmp"), name="tmp")
+app.mount("/steve/cfg", StaticFiles(directory=steve.CFG_DIR), name="cfg")
+app.include_router(steve.router)
+app.include_router(robin.router)
 
 def update(iteration = 0):
   global update_timer
